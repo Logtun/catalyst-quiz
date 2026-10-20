@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How well do you know Catalyst? · 10-question quiz</title>
+<meta name="description" content="Ten quick questions about Catalyst, the AI trading agent, built only from what catalyst.app says. Get your score card and share it on X. Made by @iamlogtun. Not an official Catalyst product.">
+<meta name="theme-color" content="#0e0e0e">
+<meta property="og:type" content="website">
+<meta property="og:title" content="How well do you know Catalyst? Take the 10-question quiz">
+<meta property="og:description" content="Ten quick questions, a score out of 10 and a card to flex on X. Can you get Catalyst OG?">
+<meta property="og:image" content="og.jpg?v=2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta property="og:image:alt" content="A Catalyst quiz score card showing 10 out of 10, Catalyst OG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How well do you know Catalyst? Take the 10-question quiz">
+<meta name="twitter:description" content="Ten quick questions, a score out of 10 and a card to flex on X. Can you get Catalyst OG?">
+<meta name="twitter:image" content="og.jpg?v=2">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-96.png" sizes="96x96" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://api.fxtwitter.com" crossorigin>
+<link rel="preconnect" href="https://pbs.twimg.com" crossorigin>
+<link rel="preload" href="assets/bdo-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css?v=4">
+</head>
+<body>
+<div class="bg-grid" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="https://catalyst.app/" target="_blank" rel="noopener" aria-label="Catalyst">
+    <img src="assets/catalyst-mark.svg" alt="" width="30" height="30">
+    <img src="assets/catalyst-word.svg" alt="Catalyst" class="word" height="25">
+  </a>
+  <span class="tag">Quiz</span>
+  <a class="btn btn-ghost btn-sm join-top" href="https://catalyst.app/" target="_blank" rel="noopener">Join the waitlist</a>
+</header>
+
+<main class="qwrap">
+  <section class="screen" id="sIntro" aria-labelledby="introTitle">
+    <p class="kicker">10 questions · about two minutes</p>
+    <h1 id="introTitle">How well do you know <span class="accent">Catalyst</span>?</h1>
+    <p class="lead">Tell Catalyst what you believe. It researches your idea, builds a trading strategy, monitors events and executes trades for you. Think you know the rest? Prove it.</p>
+    <ul class="perks">
+      <li><span class="dot"></span>Every answer comes straight from catalyst.app</li>
+      <li><span class="dot b"></span>Learn something new after each question</li>
+      <li><span class="dot y"></span>Get a score card to share on X</li>
+    </ul>
+    <button class="btn btn-primary btn-lg wide" id="btnStart" type="button">Start the quiz →</button>
+  </section>
+
+  <section class="screen" id="sHandle" aria-labelledby="handleTitle" hidden>
+    <p class="kicker">Step 1 · optional</p>
+    <h2 id="handleTitle" class="h1">Put your name on your card</h2>
+    <p class="lead">Add your X handle and we’ll pull your name and photo onto your score card.</p>
+    <div class="panel">
+      <div class="field">
+        <label for="handle">X handle <em>optional</em></label>
+        <div class="input-prefix"><span>@</span><input id="handle" name="x_handle" type="text" maxlength="16" placeholder="iamlogtun" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" inputmode="text" enterkeyhint="go"></div>
+        <div class="xlookup" id="xLookup" aria-live="polite" data-state="idle">
+          <span class="xl-av" id="xlAv" aria-hidden="true"></span>
+          <span class="xl-text small" id="xlText">Enter your handle and we’ll pull your X name and photo.</span>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-lg wide" id="btnHandleNext" type="button">Start the quiz →</button>
+  </section>
+
+  <section class="screen" id="sQuiz" aria-labelledby="qText" hidden>
+    <div class="qhead"><span id="qCount">Question 1 of 10</span><span id="qScore" class="muted">0 correct</span></div>
+    <div class="bar" aria-hidden="true"><i id="qBar"></i></div>
+    <h2 id="qText" class="qtext"></h2>
+    <div class="opts" id="qOpts" role="group" aria-label="Answers"></div>
+    <div class="feedback" id="qFeedback" role="status" aria-live="polite" hidden>
+      <b id="fbHead"></b> <span id="fbWhy"></span>
+      <span class="src">Source: catalyst.app</span>
+    </div>
+    <button class="btn btn-primary btn-lg wide" id="btnNext" type="button" hidden>Next question →</button>
+  </section>
+
+  <section class="screen" id="sResult" aria-labelledby="rTitle" hidden>
+    <div class="result-top">
+      <p class="kicker">Your score</p>
+      <div class="rscore"><span id="rScore">0</span><small>/10</small></div>
+      <h2 id="rTitle" class="h1">Catalyst OG</h2>
+      <p class="lead" id="rSub"></p>
+    </div>
+    <div class="canvas-frame">
+      <canvas id="card" width="1200" height="675" role="img" aria-label="Your Catalyst quiz score card"></canvas>
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary" id="btnDownload" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16"/></svg>
+        Download
+      </button>
+      <button class="btn btn-x" id="btnShareX" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="fill"><path d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.77L17.75 3zm-1.08 16.17h1.7L7.4 4.73H5.58l11.09 14.44z"/></svg>
+        Share on X
+      </button>
+      <button class="btn btn-ghost span2" id="btnRetake" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.3-5.6M4 4v4h4"/></svg>
+        Retake
+      </button>
+    </div>
+    <p class="hint">On your phone, <strong>Share on X</strong> opens your share sheet with the card attached: just pick X. On a computer it saves the card so you can attach it.</p>
+    <div class="cta">
+      <h2>Not on the waitlist yet?</h2>
+      <p>Tell Catalyst what you believe. It researches your idea, builds a strategy, monitors events and executes trades for you. Access opens in batches.</p>
+      <a class="btn btn-primary btn-lg" href="https://catalyst.app/" target="_blank" rel="noopener">Join the waitlist →</a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>made by <a href="https://x.com/iamlogtun" target="_blank" rel="noopener">@iamlogtun</a> · not an official Catalyst product</p>
+</footer>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-x" id="modalClose" type="button" aria-label="Close">×</button>
+    <h3 id="modalTitle">Save your card</h3>
+    <p class="muted" id="modalSteps">Press and hold the image, then tap <strong>Save to Photos</strong>.</p>
+    <img id="modalImg" alt="Your Catalyst quiz score card">
+    <a class="btn btn-x modal-openx" id="modalOpenX" href="https://x.com/intent/tweet" target="_blank" rel="noopener" hidden>Open X →</a>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js?v=4" defer></script>
+</body>
+</html>
