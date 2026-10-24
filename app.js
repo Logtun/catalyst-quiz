@@ -4,38 +4,39 @@ const W = 1200, H = 675;
 const SITE = location.origin; // this site's own address, wherever it is deployed
 const SITE_SHORT = location.host;
 
-// Every question and answer comes from Catalyst's own public site (catalyst.app: meta description + FAQ at /faq), read Oct 18, 2026.
+// Questions 1-5 and 10 come from catalyst.app (meta description + FAQ at /faq), read Oct 18 and re-checked Oct 24, 2026.
+// Questions 6-9 come from the Catalyst blog (catalyst.app/blog) and @catalystapp posts on X, read Oct 24, 2026.
 const QUESTIONS = [
   { q: "What do you give Catalyst to get started?",
     a: ["A Python script for your trading bot", "What you believe, in a natural language", "Your exchange password", "A chart full of indicators"], c: 1,
-    why: "Describe your intent, thesis or trade in plain English. Catalyst takes it from there." },
+    why: "Describe your intent, thesis or trade in plain English. Catalyst takes it from there.", src: "catalyst.app/faq" },
   { q: "Once you tell it your idea, what does Catalyst do?",
     a: ["Hands it to a human broker", "Sends you a reading list", "Researches it, builds a strategy, monitors events and executes trades", "Nothing until you code it yourself"], c: 2,
-    why: "Catalyst researches your idea, builds a trading strategy, monitors events and executes trades autonomously." },
+    why: "Catalyst researches your idea, builds a trading strategy, monitors events and executes trades autonomously.", src: "catalyst.app" },
   { q: "Which markets does Catalyst support?",
     a: ["Spot tokens, perpetuals, tokenized stocks and prediction markets", "Only Bitcoin", "Only US stocks", "Only forex"], c: 0,
-    why: "All four, and you can combine them in one workflow. More onchain and offchain assets are coming soon." },
+    why: "All four, and you can combine them in one workflow. More onchain and offchain assets are coming soon.", src: "catalyst.app/faq" },
   { q: "How much does Catalyst cost right now?",
     a: ["A monthly subscription", "A fee on every trade", "A one-time license", "It’s free during the research preview"], c: 3,
-    why: "Catalyst is free during its research preview." },
+    why: "Catalyst is free during its research preview.", src: "catalyst.app/faq" },
   { q: "Does Catalyst hold your funds?",
     a: ["Yes, it pools everyone’s deposits", "Only for bigger accounts", "No. It’s non-custodial and trades inside the limits you set", "Only while a trade is open"], c: 2,
-    why: "Catalyst has no access to user funds. You set the budget, strategy and conditions, and can pause or change strategies anytime." },
-  { q: "Catalyst describes itself as the ___ for all of finance.",
-    a: ["Social network", "Savings bank", "Price chart app", "Intent layer"], c: 3,
-    why: "Catalyst is the intent layer for all of finance: describe your intent and it builds a visual workflow and acts on it." },
-  { q: "What can a Catalyst strategy react to?",
-    a: ["Only end-of-day closing prices", "Market data, news, social activity and sentiment", "Only trades you place by hand", "Only one market at a time"], c: 1,
-    why: "Strategies can use market data, news, social activity, sentiment and other real-time signals, combined across markets in one workflow." },
-  { q: "How can you deposit into Catalyst?",
-    a: ["Apple Pay, credit cards, or crypto like USDC, SOL, ETH and BNB", "Only by bank wire transfer", "Only with Bitcoin", "Only with paper checks"], c: 0,
-    why: "Deposits work with supported fiat methods like Apple Pay and credit cards, or crypto like USDC, SOL, ETH and BNB." },
-  { q: "How do withdrawals work right now?",
-    a: ["Only in Bitcoin", "Cash pickup at partner stores", "In stablecoins, with fiat withdrawals coming soon", "Withdrawals aren’t possible yet"], c: 2,
-    why: "Withdrawals are currently supported in stablecoins, with fiat withdrawals coming soon." },
+    why: "Catalyst has no access to user funds. You set the budget, strategy and conditions, and can pause or change strategies anytime.", src: "catalyst.app/faq" },
+  { q: "When did Catalyst launch in research preview?",
+    a: ["September 25, 2026", "October 8, 2026", "October 16, 2026", "October 21, 2026"], c: 1,
+    why: "“Catalyst launched in research preview on October 8.” The same day, it announced a $30M seed round led by Sequoia.", src: "catalyst.app/blog · “Introducing Catalyst”" },
+  { q: "Whose trades can you now copy on Catalyst?",
+    a: ["Only Catalyst’s own in-house trading team", "Verified members of a paid VIP signal group", "Hyperliquid traders and Polymarket portfolios", "Only big accounts on centralized exchanges"], c: 2,
+    why: "“Hyperliquid traders are now available to copy, and a Polymarket portfolio can be copied by giving Chat a username.”", src: "catalyst.app/blog · “What’s New: October 9 to October 16”" },
+  { q: "What do X signals for Catalyst do?",
+    a: ["Turn anyone’s market calls into trades", "Automatically post every trade you make to X", "Show how many followers a coin has", "Let you DM Catalyst’s team on X"], c: 0,
+    why: "“Catalyst turns anyone’s market calls (and opinions) into trades.” It works on stocks, commodities, crypto, perps and prediction markets. Just tell Catalyst who to follow.", src: "@catalystapp on X · Oct 19, 2026" },
+  { q: "What does Catalyst Earn offer?",
+    a: ["Points you can swap for a future token", "A fixed 20% yearly return on every trade", "Cashback each time you invite a friend", "Up to 8% APY on your cash in Catalyst"], c: 3,
+    why: "Opt in to earn up to 8% APY on your cash in Catalyst. Powered by Tempo and Privy.", src: "@catalystapp on X · Oct 21, 2026" },
   { q: "What is Catalyst Cash?",
-    a: ["A cashback rewards program", "The system that routes your capital across venues automatically", "A prepaid debit card", "An interest-paying savings account"], c: 1,
-    why: "Catalyst Cash is the internal capital routing system: deposit once and it routes your capital to any venue, no manual bridging." }
+    a: ["A cashback rewards program", "The system that routes your capital across venues automatically", "A prepaid debit card", "A token you stake for rewards"], c: 1,
+    why: "Catalyst Cash is the internal capital routing system: deposit once and it routes your capital to any venue, no manual bridging.", src: "catalyst.app/faq" }
 ];
 const BANDS = [
   { t: "Waitlist Rookie", s: "Every OG started somewhere." },
@@ -378,6 +379,7 @@ function answer(k) {
   fb.className = "feedback " + (ok ? "ok" : "no");
   $("fbHead").textContent = ok ? "Correct!" : "Not quite.";
   $("fbWhy").textContent = Q.why;
+  $("fbSrc").textContent = "Source: " + (Q.src || "catalyst.app");
   fb.hidden = false;
   const nx = $("btnNext");
   nx.textContent = state.idx === QUESTIONS.length - 1 ? "See my score →" : "Next question →";
@@ -405,7 +407,7 @@ function fileName() {
 }
 function getBlob() { draw(); return new Promise((res) => canvas.toBlob((b) => res(b), "image/png")); }
 function shareText() {
-  return `I scored ${state.score}/10 on the "How well do you know Catalyst?" quiz 🧡\n\nCatalyst is an AI powered financial intelligence and trading platform. Tell it what you believe, it researches, builds the strategy and trades it for you.\n\nJoin us —> catalyst.app\n\nTake the quiz —> ${SITE}`;
+  return `I scored ${state.score}/10 on the "How well do you know @catalystapp?" quiz 🧡\n\nCatalyst is an AI powered financial intelligence and trading platform. Tell it what you believe, it researches, builds the strategy and trades it for you.\n\nJoin us —> catalyst.app\n\nTake the quiz —> ${SITE}`;
 }
 function intentUrl() { return "https://x.com/intent/tweet?text=" + encodeURIComponent(shareText()); }
 const isIOS = /iP(hone|od|ad)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
